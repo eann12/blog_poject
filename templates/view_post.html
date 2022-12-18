@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ <div class="row justify-content-md-center">
+ 	<div class="col col-md-9">
+			<a href="{% url 'blog:update-post' post.id %}" class="btn btn-primary float-right">Edit post</a>
+
+			<h1>{{ post.title|title }}</h1>
+			
+			<small>Author: {{ post.author }}</small><br>
+			<small>Created date: {{ post.created_date }}</small>
+			<hr>
+			<p>
+				{{ post.body|linebreaks}}
+			</p>
+			<hr/>
+            
+           
+            	<div class="">
+            		{{ form.errors }}
+	            	<form role="form" action="" method="POST">
+
+				    {% csrf_token %}
+
+				    <h5>Write your comment...</h5>
+					
+					{{ comment_form.comment }}
+							
+					<input type="hidden" name="commenter" value="{{request.user}}"> 
+					<input type="hidden" name="post" value="{{post.id}}"> 
+					<button type="submit" class="btn btn-primary">Add comment</button>
+				   </form>
+            	</div>
+            
+            
+			<div class="list-group">
+				{% for comment in comments %}
+				  <li href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+				    <div class="d-flex w-100 justify-content-between">
+				      <h5 class="mb-1"></h5>
+				      <small>{{ comment.created_date }}</small>
+				    </div>
+				    <p class="mb-1">{{ comment.comment }}</p>
+
+				    <small class="float-right"><a href="{% url 'blog:delete-comment' post.id comment.id  %}" ><u>Delete Comment</u></a></small>
+				  </li>
+				  {% empty %}
+				<tr>
+					<td colspan=6>No comments yet. Be the first to comment.</td>
+				</tr>
+				{% endfor %}
+			</div>
+		  <!--   <table>
+			{% for comment in comments %}
+				<tr>
+					<td>{{ comment.comment }}</td>
+					<td>{{ comment.created_date }}</td>
+					<td><a href="{% url 'blog:delete-comment' post.id comment.id  %}" class="btn btn-danger">Delete</a></td>
+					
+					
+				</tr>
+				{% empty %}
+				<tr>
+					<td colspan=6>No comments yet. Be the first to comment.</td>
+				</tr>
+				{% endfor %}
+			</table> -->
+	</div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ <div class="row justify-content-md-center">
+ 	<div class="col col-md-9">
+		<h3>My Blog - Add Post</h3>
+		<form role="form" action="" method="POST">
+		    {% csrf_token %}
+		     {{ form.errors }}
+			<table class="table table-bordered table-striped">
+				<tbody>
+					<tr>
+						<th>Title</th>
+						<th>{{ post_form.title }}</th>
+					</tr>
+					
+					<tr>
+						<th>Body</th>
+						<th>{{ post_form.body }}</th>
+					</tr>
+				</tbody>
+			</table>
+			<input type="hidden" name="author" value="{{request.user}}"> 
+			<button type="submit" class="btn btn-success">Save</button>
+		</form>
+		</div>
+		</div>
+{% endblock %}
